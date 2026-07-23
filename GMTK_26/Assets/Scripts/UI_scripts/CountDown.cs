@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class CountDown : MonoBehaviour
 {
     public static CountDown Instance { get; private set; }
-    public float clockTime = 300f;
+    public static float clockTime = 300f;
+    public bool clockRunning = false;
     public TMPro.TextMeshProUGUI Text;
     private void Awake() {
 
@@ -20,15 +21,19 @@ public class CountDown : MonoBehaviour
 
     void Update()
     {
-        clockTime -= Time.deltaTime;
-        Text.text= Mathf.Floor(clockTime/60) + ":" + Mathf.Round(clockTime%60);
+        if (clockRunning) { 
+            clockTime -= Time.deltaTime;
+        }
 
         if(clockTime < 0) {
             GlobalVariables.PriviousScene = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene("GameOver");
         }
         else {
-            Text.text = Mathf.Floor(clockTime / 60) + ":" + Mathf.Round(clockTime % 60);
+            Text.text = Mathf.Floor(clockTime / 60) + ":" + Mathf.Floor(clockTime % 60);
         }
+    }
+    public void SetClockRunning(bool val) {
+        clockRunning = val;
     }
 }
