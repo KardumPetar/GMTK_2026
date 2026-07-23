@@ -7,13 +7,19 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public PlayerMovementStats MoveStats;
     [SerializeField] private Collider2D _feetColl;
-    [SerializeField] private Collider2D _bodyColl;
+    [SerializeField] private GameObject _standing_body;
+    [SerializeField] private GameObject _crouched_body;
+
+    private Collider2D _standing_bodyColl;
+    private Collider2D _crouched_bodyColl;
+    private Collider2D _bodyColl;
 
 
     [SerializeField] bool right_move_allowed = false;
     [SerializeField] bool left_move_allowed = false;
     [SerializeField] bool jump_allowed = false;
     [SerializeField] bool run_allowed = false;
+    [SerializeField] bool crouch_allowed = false;
 
     private Rigidbody2D _rb;
 
@@ -48,6 +54,9 @@ public class PlayerMovement : MonoBehaviour
     //coyote time vars
     private float _coyoteTimer;
 
+    //crouching
+    private bool _isCrouching;
+
 
     public void Allow(string name) {
         switch (name) {
@@ -59,28 +68,41 @@ public class PlayerMovement : MonoBehaviour
                 jump_allowed = true; break;
             case "run":
                 run_allowed = true; break;
+            case "double_jump":
+                MoveStats.NumberOfJumpsAllowed = 2; break;
+            case "crouch":
+                crouch_allowed = true; break;
+
         }
     }
     private void Awake()
     {
         _isFacingRight = true;
+        _isCrouching = false;
         _rb = GetComponent<Rigidbody2D>();
+        _standing_bodyColl = _standing_body.GetComponent<CapsuleCollider2D>();
+        _crouched_bodyColl = _crouched_body.GetComponent<CapsuleCollider2D>();
+        _bodyColl = _standing_bodyColl;
+        MoveStats.NumberOfJumpsAllowed = 1;
     }
 
     private void Update()
     {
         CountTimers();
         JumpChecks();
+        if (crouch_allowed)
+        {
+            CrouchCheck(InputManager.CrouchIsHeld);
+        }
+        
+        
     }
 
     private void FixedUpdate()
     {
         CollisionChecks();
-        if (jump_allowed)
-        {
-            Jump();
-        }
-                    
+        Jump();
+                            
         if (_isGrounded)
         {
             Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
@@ -139,8 +161,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-
-    private void Turn(bool turnRight)
+        private void Turn(bool turnRight)
     {
         if (turnRight)
         {
@@ -154,6 +175,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void CrouchCheck(bool crouching_input)
+    {
+        if (!_isCrouching && crouching_input)
+        {            
+            _isCrouching = true;
+            _standing_body.SetActive(false);
+            _crouched_body.SetActive(true);
+            _bodyColl = _crouched_bodyColl;
+        }
+        else if (_isCrouching && !crouching_input)
+        {
+            _isCrouching = false;
+            _standing_body.SetActive(true);
+            _crouched_body.SetActive(false);
+            _bodyColl = _standing_bodyColl;
+        }
+
+    }
+
     #endregion
     
     #region Jump
@@ -161,13 +201,13 @@ public class PlayerMovement : MonoBehaviour
     private void JumpChecks()
     {
         //press
-        if (InputManager.JumpWasPressed)
+        if (InputManager.JumpWasPressed && jump_allowed)
         {
             _jumpBufferTimer = MoveStats.JumpBufferTime;
             _jumpReleasedDuringBuffer = false;
         }
         //release
-        if (InputManager.JumpWasReleased)
+        if (InputManager.JumpWasReleased && jump_allowed)
         {
             if (_jumpBufferTimer > 0f)
             {
@@ -369,6 +409,7 @@ public class PlayerMovement : MonoBehaviour
     private void CollisionChecks()
     {
         IsGrounded();
+        BumpedHead();
     }
     #endregion
 

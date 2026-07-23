@@ -11,12 +11,18 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
 
 
-    void Update() {
-        
-        Vector3 newPosX = new Vector3(target.position.x, transform.position.y, -10f);
-        transform.position = Vector3.Slerp(transform.position, newPosX, FollowSpeedX * Time.deltaTime);
-        Vector3 newPosY = new Vector3(transform.position.x, target.position.y + yOffset, -10f);
-        transform.position = Vector3.Slerp(transform.position, newPosY, FollowSpeedY * Time.deltaTime);
-    }
 
+    private void OnGUI()
+    {
+        Vector3 newPosX = new Vector3(target.position.x, transform.position.y, -10f);
+        if (Mathf.Abs(newPosX.x  - transform.position.x) > 1)
+        {
+            transform.position = Vector3.Lerp(transform.position, newPosX, FollowSpeedX * Time.deltaTime);
+        }        
+        Vector3 newPosY = new Vector3(transform.position.x, target.position.y + yOffset, -10f);
+        if (Mathf.Abs(newPosY.y - transform.position.y) > 2f)
+        {
+            transform.position = Vector3.Lerp(transform.position, newPosY, FollowSpeedY * Time.deltaTime);
+        }
+    }
 }
