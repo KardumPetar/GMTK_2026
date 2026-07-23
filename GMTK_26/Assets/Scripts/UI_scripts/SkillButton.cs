@@ -21,4 +21,5 @@ public class SkillButton : MonoBehaviour
             skill.enabled = true;
         }   
     }
+
 }
