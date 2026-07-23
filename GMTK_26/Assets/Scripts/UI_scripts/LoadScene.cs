@@ -11,4 +11,7 @@ public class LoadScene : MonoBehaviour
     public void LoadSceneByName(string sceneName) {
         SceneManager.LoadScene(sceneName);
     }
+    public void ReloadScene() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
