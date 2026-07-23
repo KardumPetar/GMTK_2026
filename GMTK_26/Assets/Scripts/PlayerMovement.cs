@@ -9,6 +9,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Collider2D _feetColl;
     [SerializeField] private Collider2D _bodyColl;
 
+
+    [SerializeField] bool right_move_allowed = false;
+    [SerializeField] bool left_move_allowed = false;
+    [SerializeField] bool jump_allowed = false;
+    [SerializeField] bool run_allowed = false;
+
     private Rigidbody2D _rb;
 
     //movement vars
@@ -59,7 +65,11 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         CollisionChecks();
-        Jump();
+        if (jump_allowed)
+        {
+            Jump();
+        }
+                    
         if (_isGrounded)
         {
             Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
@@ -68,18 +78,27 @@ public class PlayerMovement : MonoBehaviour
         {
             Move(MoveStats.AirAcceleration, MoveStats.AirDeceleration, InputManager.Movement);
         }
+        
     }
 
     #region Movement
 
     private void Move(float acceleration, float deceleration, Vector2 moveInput)
     {
+        if (!right_move_allowed)
+        { moveInput.x = Mathf.Min(moveInput.x, 0f); }
+        if (!left_move_allowed)
+        { moveInput.x = Mathf.Max(moveInput.x, 0f); }
+
         if (moveInput != Vector2.zero)
         {
+           
             TurnCheck(moveInput);
+            
+            
 
             Vector2 targetVelocity = Vector2.zero;
-            if (InputManager.RunIsHeld)
+            if (InputManager.RunIsHeld && run_allowed)
             {
                 targetVelocity = new Vector2(moveInput.x, 0f) * MoveStats.MaxRunSpeed;
             }
