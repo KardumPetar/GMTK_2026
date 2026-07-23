@@ -19,9 +19,6 @@ public class SkillButton : MonoBehaviour
         if (CountDown.clockTime >= cost) {
             CountDown.clockTime -= cost;
             skill.enabled = true;
-            
-
-        }
-        
+        }   
     }
 }
