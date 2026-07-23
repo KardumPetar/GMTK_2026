@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SkillButton : MonoBehaviour
 {
-    public Skill skill;
+    public MonoBehaviour skill;
+    public string skillID = "";
     public string skillName = "Skill";
     public int cost = 30;
     public TMPro.TextMeshProUGUI textName;
@@ -15,11 +16,19 @@ public class SkillButton : MonoBehaviour
         textCost.text = cost + " s";
     }
     public void BuySkill() {
-        print(skill.gameObject.name);
+        
         if (CountDown.clockTime >= cost) {
             CountDown.clockTime -= cost;
-            skill.enabled = true;
-        }   
+            if (skillID == "") {
+                skill.enabled = true;
+            } 
+            else {
+                skill.gameObject.GetComponent<PlayerMovement>().Allow(skillID);
+            }
+        }
+       
+
+        
     }
 
 }

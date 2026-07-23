@@ -49,7 +49,18 @@ public class PlayerMovement : MonoBehaviour
     private float _coyoteTimer;
 
 
-
+    public void Allow(string name) {
+        switch (name) {
+            case "right_move":
+                right_move_allowed = true;break;
+            case "left_move":
+                left_move_allowed = true; break;
+            case "jump":
+                jump_allowed = true; break;
+            case "run":
+                run_allowed = true; break;
+        }
+    }
     private void Awake()
     {
         _isFacingRight = true;
