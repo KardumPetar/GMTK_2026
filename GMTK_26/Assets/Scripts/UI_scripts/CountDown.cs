@@ -12,6 +12,9 @@ public class CountDown : MonoBehaviour
     public static float clockTime = 300f;
     public bool clockRunning = false;
     public TMPro.TextMeshProUGUI Text;
+
+    public float timeFlowMultiplier;
+
     private void Awake() {
         clockTime = startClockTime;
         if (Instance != null && Instance != this) {
@@ -20,12 +23,15 @@ public class CountDown : MonoBehaviour
         else {
             Instance = this;
         }
+        timeFlowMultiplier = 1;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (clockRunning) { 
-            clockTime -= Time.deltaTime;
+            clockTime -= timeFlowMultiplier * Time.fixedDeltaTime;
+            //Debug.Log(timeFlowMultiplier);
+            timeFlowMultiplier = 1;
         }
 
         if(clockTime < 0) {
