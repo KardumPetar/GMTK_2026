@@ -13,7 +13,8 @@ public class HurtEnemy : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.TryGetComponent<DestroyableObject>(out destroyableObject)){
+        destroyableObject = collision.GetComponentInParent<DestroyableObject>();
+        if(destroyableObject!=null){
             destroyableObject.Hurt(damage);
         }
     }

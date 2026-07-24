@@ -13,12 +13,12 @@ public class DestroyableObject : MonoBehaviour
     }
     public void Hurt(int amount) {
         HP -= amount;
-        
+        if (destroyParticleSystem != null) {
+            newParticleSystem = Instantiate(destroyParticleSystem, GameObject.Find("Projectals").transform);
+            newParticleSystem.transform.position = transform.position;
+        }
         if(HP <= 0) {
-            if (destroyParticleSystem != null) {
-                newParticleSystem = Instantiate(destroyParticleSystem, GameObject.Find("Projectals").transform);
-                newParticleSystem.transform.position = transform.position;
-            }
+            
             Destroy(gameObject);
         }
 

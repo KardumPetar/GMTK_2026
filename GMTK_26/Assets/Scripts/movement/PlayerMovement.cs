@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Skill
 {
     [Header("References")]
     public PlayerMovementStats MoveStats;
@@ -64,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     public bool _canStandUp;
 
 
-    public void Allow(string name) {
+    public override void Allow(string name) {
         switch (name) {
             case "right_move":
                 right_move_allowed = true;break;
@@ -148,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (moveInput == Vector2.zero)
         {
+            Turn();
             animator.SetBool("isRunning", false);
             _moveVelocity = Vector2.Lerp(_moveVelocity, Vector2.zero, deceleration * Time.fixedDeltaTime);
             _rb.velocity = new Vector2(_moveVelocity.x, _rb.velocity.y);
@@ -156,32 +158,39 @@ public class PlayerMovement : MonoBehaviour
 
     private void TurnCheck(Vector2 moveInput)
     {
-        if (_isFacingRight && moveInput.x < 0)
-        {
+        if (_isFacingRight && moveInput.x < 0) {
             Turn(false);
         }
-        else if (!_isFacingRight && moveInput.x > 0)
-        {
+        else if (!_isFacingRight && moveInput.x > 0) {
             Turn(true);
         }
 
-
     }
 
-        private void Turn(bool turnRight)
+    private void Turn(bool turnRight)
     {
-        if (turnRight)
+        if (turnRight && !_isFacingRight)
         {
             _isFacingRight = true;
             transform.Rotate(0f, 180f, 0f);
         }
-        else
-        {
+        else if (!turnRight && _isFacingRight) {
+        
             _isFacingRight = false;
             transform.Rotate(0f, -180f, 0f);
         }
     }
-
+    private void Turn() {
+        Vector2  direction = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position));
+        print(Mathf.Sign(direction.x));
+        if(direction.x < 0) {
+            
+            Turn(false);
+        }
+        else if (direction.x > 0) {
+            Turn(true);
+        }
+    }
     private void CrouchCheck(bool crouching_input)
     {
         if (!_isCrouching && crouching_input)
