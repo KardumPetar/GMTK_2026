@@ -74,6 +74,7 @@ public class PlayerMovement : Skill
     private Vector2 _teleportTarget;
     private bool _initiateTeleport;
     private bool _isTeleporting;
+    [SerializeField] private float _teleportationTime = 0.5f;
 
     public override void Allow(string name) {
         switch (name) {
@@ -108,41 +109,48 @@ public class PlayerMovement : Skill
 
     private void Update()
     {
-        CountTimers();
-        JumpChecks();
-        if (crouch_allowed)
+        if (!_isTeleporting)
         {
-            CrouchCheck(InputManager.CrouchIsHeld);
-        }
-        if (teleport_allowed && Input.GetMouseButton(1))
-        {
-            GetTeleportTarget();
-        }
-        else
-        {
-            CancleTeleport();
+            CountTimers();
+            JumpChecks();
+            if (crouch_allowed)
+            {
+                CrouchCheck(InputManager.CrouchIsHeld);
+            }
+            if (teleport_allowed && Input.GetMouseButton(1))
+            {
+                GetTeleportTarget();
+            }
+            else
+            {
+                CancleTeleport();
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        CollisionChecks();
-        Jump();
+        if (!_isTeleporting)
+        {
+            CollisionChecks();
+            Jump();
                             
-        if (_isGrounded)
-        {
-            Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
-        }
-        else
-        {
-            Move(MoveStats.AirAcceleration, MoveStats.AirDeceleration, InputManager.Movement);
-        }
+            if (_isGrounded)
+            {
+                Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
+            }
+            else
+            {
+                Move(MoveStats.AirAcceleration, MoveStats.AirDeceleration, InputManager.Movement);
+            }
 
-        if (teleport_allowed && _initiateTeleport)
-        {
-            //TeleportTo(_teleportTarget);
-            StartCoroutine(TeleportToIEnum(_teleportTarget));
+            if (teleport_allowed && _initiateTeleport)
+            {
+                //TeleportTo(_teleportTarget);
+                StartCoroutine(TeleportToIEnum(_teleportTarget));
+            }
         }
+        
 
     }
 
@@ -211,15 +219,50 @@ public class PlayerMovement : Skill
     }
     IEnumerator TeleportToIEnum(Vector3 targetPosition) {
         _isTeleporting = true;
-        animator.SetTrigger("batIn");
         _initiateTeleport = false;
-        yield return new WaitForSeconds(0.5f);
         _teleportPrewiev.SetActive(false);
-        transform.position = targetPosition;
+
+        animator.SetTrigger("batIn");      
         
+        yield return new WaitForSeconds(0.5f);
+
+        if (_isCrouching)
+        {
+            _crouched_body.SetActive(false);
+        }
+        else
+        {
+            _standing_body.SetActive(false);
+        }
+        _feetColl.gameObject.SetActive(false); 
+
+        linearTeleport(transform.position, targetPosition, _teleportationTime);
+        yield return new WaitForSeconds(_teleportationTime);
+        _rb.velocity = Vector3.zero;
+
+        if (_isCrouching)
+        {
+            _crouched_body.SetActive(true);
+        }
+        else
+        {
+            _standing_body.SetActive(true);
+        }
+        _feetColl.gameObject.SetActive(true);
+
         animator.SetTrigger("batOut");
+
+        yield return new WaitForSeconds(0.5f);
+        
+
         _isTeleporting = false;
     }
+
+    void linearTeleport(Vector3 startPosition, Vector3 targetPosition, float teleportationTime)
+    {
+        _rb.velocity = (targetPosition - startPosition) / teleportationTime;
+    }
+
 
     #endregion
 
@@ -235,10 +278,12 @@ public class PlayerMovement : Skill
 
         if (moveInput != Vector2.zero)
         {
-            animator.SetBool("isRunning", true);
+            if (moveInput.x  != 0)
+            {
+                animator.SetBool("isRunning", true);
+            }
             TurnCheck(moveInput);
-            
-            
+                        
 
             Vector2 targetVelocity = Vector2.zero;
             if (InputManager.RunIsHeld && run_allowed)
@@ -415,6 +460,8 @@ public class PlayerMovement : Skill
             // gravity ascending
             if (VerticalVelocity >= 0f)
             {
+                animator.SetBool("isJumpingUp", true);
+                animator.SetBool("isJumpingDown", false);
                 // apex
                 _apexPoint = Mathf.InverseLerp(MoveStats.InitialJumpVelocity, 0f, VerticalVelocity);
 
@@ -453,17 +500,26 @@ public class PlayerMovement : Skill
             //gravity descending
             else if (!_isFastFalling)
             {
+                animator.SetBool("isJumpingUp", false);
+                animator.SetBool("isJumpingDown", true);
                 VerticalVelocity += MoveStats.Gravity * MoveStats.GravityOnReleaseMultiplier * Time.fixedDeltaTime;
             }
             else if (VerticalVelocity < 0f)
             {
+                animator.SetBool("isJumpingUp", false);
+                animator.SetBool("isJumpingDown", true);
                 if (!_isFalling)
                 {
                     _isFalling = true;
                 }
             }
         }
-        //jump cut
+        else
+        {
+            animator.SetBool("isJumpingUp", false);
+            animator.SetBool("isJumpingDown", false);
+        }
+            //jump cut
         if (_isFastFalling)
         {
             if (_fastFallTime >= MoveStats.TimeForUpwardsCancel)
