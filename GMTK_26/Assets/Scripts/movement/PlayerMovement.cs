@@ -11,6 +11,11 @@ public class PlayerMovement : Skill
     [SerializeField] private GameObject _standing_body;
     [SerializeField] private GameObject _crouched_body;
     [SerializeField] private Animator animator;
+    [SerializeField] Transform teleport_start_position;
+    [SerializeField] private GameObject _teleportPrewiev;
+
+    [SerializeField] Color _teleportValidColor;
+    [SerializeField] Color _teleportInvalidColor;
 
     private Collider2D _standing_bodyColl;
     private Collider2D _crouched_bodyColl;
@@ -22,6 +27,7 @@ public class PlayerMovement : Skill
     [SerializeField] bool jump_allowed = false;
     [SerializeField] bool run_allowed = false;
     [SerializeField] bool crouch_allowed = false;
+    [SerializeField] bool teleport_allowed = false;
 
     private Rigidbody2D _rb;
 
@@ -64,6 +70,10 @@ public class PlayerMovement : Skill
 
     public bool _canStandUp;
 
+    //teleporting
+    private Vector2 _teleportTarget;
+    private bool _initiateTeleport;
+
 
     public override void Allow(string name) {
         switch (name) {
@@ -79,7 +89,8 @@ public class PlayerMovement : Skill
                 _numOfJumps = 2; break;
             case "crouch":
                 crouch_allowed = true; break;
-
+            case "teleport":
+                teleport_allowed = true; break;
         }
     }
     private void Awake()
@@ -87,6 +98,8 @@ public class PlayerMovement : Skill
         _isFacingRight = true;
         _isCrouching = false;
         _canStandUp = true;
+        _initiateTeleport = false;
+        _teleportTarget = Vector2.negativeInfinity;
         _rb = GetComponent<Rigidbody2D>();
         _standing_bodyColl = _standing_body.GetComponent<CapsuleCollider2D>();
         _crouched_bodyColl = _crouched_body.GetComponent<CapsuleCollider2D>();
@@ -101,8 +114,14 @@ public class PlayerMovement : Skill
         {
             CrouchCheck(InputManager.CrouchIsHeld);
         }
-        
-        
+        if (teleport_allowed && Input.GetMouseButton(1))
+        {
+            GetTeleportTarget();
+        }
+        else
+        {
+            CancleTeleport();
+        }
     }
 
     private void FixedUpdate()
@@ -118,8 +137,77 @@ public class PlayerMovement : Skill
         {
             Move(MoveStats.AirAcceleration, MoveStats.AirDeceleration, InputManager.Movement);
         }
-        
+
+        if (teleport_allowed && _initiateTeleport)
+        {
+            TeleportTo(_teleportTarget);
+        }
+
     }
+
+    #region Teleport
+    void GetTeleportTarget()
+    {
+
+        // find teleport Target
+        Vector2 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = target - new Vector2(teleport_start_position.position.x, teleport_start_position.position.y);
+        
+        _teleportPrewiev.SetActive(true);
+        _teleportPrewiev.transform.position = target;
+
+        // check line of sight
+        float distance = direction.magnitude;
+        direction = direction.normalized;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(teleport_start_position.position, direction, distance);
+        Debug.DrawRay(teleport_start_position.position, direction * distance, Color.green);
+        bool haveLineOfSight = true;
+
+        //Debug.Log(hits.Length);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit2D hit = hits[i];
+            if (!hit.collider.isTrigger && hit.transform.tag != "Player")
+            {
+                haveLineOfSight = false;
+                Debug.DrawRay(teleport_start_position.position, direction  * hit.distance, Color.red);
+            }
+        }
+        Debug.Log(haveLineOfSight);
+        if (haveLineOfSight)
+        {
+            _teleportPrewiev.GetComponent<SpriteRenderer>().color = _teleportValidColor;
+            _teleportTarget = target;
+            if (Input.GetMouseButtonDown(0))
+            {
+                _initiateTeleport = true;
+            }
+        }
+        else
+        {
+            _teleportPrewiev.GetComponent<SpriteRenderer>().color = _teleportInvalidColor;
+            _initiateTeleport = false;
+            _teleportTarget = Vector2.negativeInfinity;
+        }        
+
+    }
+
+    void CancleTeleport()
+    {
+        _teleportPrewiev.SetActive(false);
+        _initiateTeleport = false;
+        _teleportTarget = Vector2.negativeInfinity;
+    }
+
+    void TeleportTo(Vector3 targetPosition)
+    {
+        _teleportPrewiev.SetActive(false);
+        transform.position = targetPosition;
+        _initiateTeleport = false;
+    }
+
+    #endregion
+
 
     #region Movement
 
@@ -182,7 +270,7 @@ public class PlayerMovement : Skill
     }
     private void Turn() {
         Vector2  direction = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position));
-        print(Mathf.Sign(direction.x));
+        //print(Mathf.Sign(direction.x));
         if(direction.x < 0) {
             
             Turn(false);
