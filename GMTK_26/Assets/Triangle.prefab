@@ -128,7 +128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timePenalty: 10
-  playerColider: {fileID: 0}
   imunityTime: 1
 --- !u!1 &3213960362098029606
 GameObject:

@@ -1,19 +1,22 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GarlicScript : MonoBehaviour
 {
     private Collider2D collider2d;
     public int timePenalty;
-    public Collider2D playerColider;
+    private Collider2D playerColider;
 
     //private bool imune = false;
     private float timeSinceHit = 0;
     public float imunityTime = 1;
-    private void Start() {
+    private void Awake() {
         collider2d = GetComponent<Collider2D>();
+        
+        playerColider = (Collider2D)FindFirstObjectByType(typeof(CapsuleCollider2D), FindObjectsInactive.Include);//.GetComponent<Collider2D>();
     }
 
 

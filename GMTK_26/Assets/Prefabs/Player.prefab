@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1154525116400677816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6204924005736086834}
+  m_Layer: 0
+  m_Name: ShootingPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6204924005736086834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154525116400677816}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.56, y: 0.14, z: 0}
+  m_LocalScale: {x: 1.25, y: 0.58823526, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1658055236576015126}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1658055234789320560
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +203,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1658055234789320561}
+  - {fileID: 6204924005736086834}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -262,11 +294,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveStats: {fileID: 11400000, guid: d564478814f62b94cb48a65aa3260a66, type: 2}
   _feetColl: {fileID: 1658055235119607530}
-  _bodyColl: {fileID: 1658055236302956976}
+  _standing_body: {fileID: 0}
+  _crouched_body: {fileID: 0}
   right_move_allowed: 0
   left_move_allowed: 0
   jump_allowed: 0
   run_allowed: 0
+  crouch_allowed: 0
 --- !u!114 &3417409521221156912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,5 +314,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 0}
+  shootingPosition: {fileID: 1154525116400677816}
   speed: 1
-  fireRate: 0
+  cooldown_time: 1
