@@ -747,6 +747,7 @@ MonoBehaviour:
   teleport_allowed: 0
   _numOfJumps: 1
   _canStandUp: 0
+  _teleportationTime: 0.2
 --- !u!114 &3417409521221156912
 MonoBehaviour:
   m_ObjectHideFlags: 0
