@@ -5,6 +5,8 @@ using UnityEngine;
 public class DestroyableObject : MonoBehaviour
 {
     [SerializeField] int maxHP = 1;
+    [SerializeField] GameObject destroyParticleSystem;
+    private GameObject newParticleSystem;
     private int HP;
     private void Start() {
         HP = maxHP;
@@ -13,7 +15,12 @@ public class DestroyableObject : MonoBehaviour
         HP -= amount;
         
         if(HP <= 0) {
+            if (destroyParticleSystem != null) {
+                newParticleSystem = Instantiate(destroyParticleSystem, GameObject.Find("Projectals").transform);
+                newParticleSystem.transform.position = transform.position;
+            }
             Destroy(gameObject);
         }
+
     }
 }
