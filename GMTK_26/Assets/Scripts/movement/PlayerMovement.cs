@@ -42,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     private float _fastFallReleaseSpeed;
     private int _numberOfJumpsUsed;
 
+    //multi jump
+    public int _numOfJumps  = 1;
+
     //apex vars
     private float _apexPoint;
     private float _timePastApexThreshold;
@@ -57,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
     //crouching
     private bool _isCrouching;
 
+    public bool _canStandUp;
+
 
     public void Allow(string name) {
         switch (name) {
@@ -69,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
             case "run":
                 run_allowed = true; break;
             case "double_jump":
-                MoveStats.NumberOfJumpsAllowed = 2; break;
+                _numOfJumps = 2; break;
             case "crouch":
                 crouch_allowed = true; break;
 
@@ -79,11 +84,11 @@ public class PlayerMovement : MonoBehaviour
     {
         _isFacingRight = true;
         _isCrouching = false;
+        _canStandUp = true;
         _rb = GetComponent<Rigidbody2D>();
         _standing_bodyColl = _standing_body.GetComponent<CapsuleCollider2D>();
         _crouched_bodyColl = _crouched_body.GetComponent<CapsuleCollider2D>();
         _bodyColl = _standing_bodyColl;
-        MoveStats.NumberOfJumpsAllowed = 1;
     }
 
     private void Update()
@@ -184,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
             _crouched_body.SetActive(true);
             _bodyColl = _crouched_bodyColl;
         }
-        else if (_isCrouching && !crouching_input)
+        else if (_isCrouching && !crouching_input && _canStandUp)
         {
             _isCrouching = false;
             _standing_body.SetActive(true);
@@ -241,13 +246,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         //double jump
-        else if (_jumpBufferTimer > 0f && _isJumping && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed)
+        else if (_jumpBufferTimer > 0f && _isJumping && _numberOfJumpsUsed < _numOfJumps)
         {
             _isFastFalling = false;
             InitiateJump(1);
         }
         //air jump after coyote
-        else if (_jumpBufferTimer > 0f && _isFalling && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed - 1)
+        else if (_jumpBufferTimer > 0f && _isFalling && _numberOfJumpsUsed < _numOfJumps - 1)
         {
             InitiateJump(2);
             _isFastFalling = false;
