@@ -73,7 +73,7 @@ public class PlayerMovement : Skill
     //teleporting
     private Vector2 _teleportTarget;
     private bool _initiateTeleport;
-
+    private bool _isTeleporting;
 
     public override void Allow(string name) {
         switch (name) {
@@ -140,7 +140,8 @@ public class PlayerMovement : Skill
 
         if (teleport_allowed && _initiateTeleport)
         {
-            TeleportTo(_teleportTarget);
+            //TeleportTo(_teleportTarget);
+            StartCoroutine(TeleportToIEnum(_teleportTarget));
         }
 
     }
@@ -201,9 +202,23 @@ public class PlayerMovement : Skill
 
     void TeleportTo(Vector3 targetPosition)
     {
+        _isTeleporting = true;
+        animator.SetTrigger("batIn");
         _teleportPrewiev.SetActive(false);
         transform.position = targetPosition;
         _initiateTeleport = false;
+
+    }
+    IEnumerator TeleportToIEnum(Vector3 targetPosition) {
+        _isTeleporting = true;
+        animator.SetTrigger("batIn");
+        _initiateTeleport = false;
+        yield return new WaitForSeconds(0.5f);
+        _teleportPrewiev.SetActive(false);
+        transform.position = targetPosition;
+        
+        animator.SetTrigger("batOut");
+        _isTeleporting = false;
     }
 
     #endregion
