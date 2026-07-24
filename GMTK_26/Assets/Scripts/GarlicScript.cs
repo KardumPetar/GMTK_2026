@@ -27,4 +27,7 @@ public class GarlicScript : MonoBehaviour
         }
         timeSinceHit += Time.fixedDeltaTime;
     }
+    private void OnTriggerEnter(Collider other) {
+        
+    }
 }
