@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Collider2D _feetColl;
     [SerializeField] private GameObject _standing_body;
     [SerializeField] private GameObject _crouched_body;
+    [SerializeField] private Animator animator;
 
     private Collider2D _standing_bodyColl;
     private Collider2D _crouched_bodyColl;
@@ -130,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveInput != Vector2.zero)
         {
-           
+            animator.SetBool("isRunning", true);
             TurnCheck(moveInput);
             
             
@@ -147,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (moveInput == Vector2.zero)
         {
+            animator.SetBool("isRunning", false);
             _moveVelocity = Vector2.Lerp(_moveVelocity, Vector2.zero, deceleration * Time.fixedDeltaTime);
             _rb.velocity = new Vector2(_moveVelocity.x, _rb.velocity.y);
         }
