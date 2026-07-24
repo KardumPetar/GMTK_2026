@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillButton : MonoBehaviour
 {
-    public MonoBehaviour skill;
+    public Skill skill;
     public string skillID = "";
     public string skillName = "Skill";
     public int cost = 30;
@@ -19,11 +19,9 @@ public class SkillButton : MonoBehaviour
         
         if (CountDown.clockTime >= cost) {
             CountDown.clockTime -= cost;
-            if (skillID == "") {
-                skill.enabled = true;
-            } 
-            else {
-                skill.gameObject.GetComponent<PlayerMovement>().Allow(skillID);
+            skill.enabled = true;
+            if (skillID != "") {
+                skill.Allow(skillID);
             }
         }
        
