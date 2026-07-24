@@ -6,7 +6,9 @@ public class DestroyableObject : MonoBehaviour
 {
     [SerializeField] int maxHP = 1;
     [SerializeField] GameObject destroyParticleSystem;
+    [SerializeField] GameObject rewardGO;
     private GameObject newParticleSystem;
+    private GameObject newRewardGO;
     private int HP;
     private void Start() {
         HP = maxHP;
@@ -17,8 +19,12 @@ public class DestroyableObject : MonoBehaviour
             newParticleSystem = Instantiate(destroyParticleSystem, GameObject.Find("Projectals").transform);
             newParticleSystem.transform.position = transform.position;
         }
+
         if(HP <= 0) {
-            
+            if (rewardGO != null) {
+                newRewardGO = Instantiate(rewardGO, GameObject.Find("Projectals").transform);
+                newRewardGO.transform.position = transform.position;
+            }
             Destroy(gameObject);
         }
 

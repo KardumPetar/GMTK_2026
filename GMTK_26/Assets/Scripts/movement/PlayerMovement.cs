@@ -270,7 +270,7 @@ public class PlayerMovement : Skill
     }
     private void Turn() {
         Vector2  direction = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position));
-        //print(Mathf.Sign(direction.x));
+        
         if(direction.x < 0) {
             
             Turn(false);
@@ -287,6 +287,8 @@ public class PlayerMovement : Skill
             _standing_body.SetActive(false);
             _crouched_body.SetActive(true);
             _bodyColl = _crouched_bodyColl;
+
+            animator.SetTrigger("crouchIn");
         }
         else if (_isCrouching && !crouching_input && _canStandUp)
         {
@@ -294,6 +296,7 @@ public class PlayerMovement : Skill
             _standing_body.SetActive(true);
             _crouched_body.SetActive(false);
             _bodyColl = _standing_bodyColl;
+            animator.SetTrigger("crounchOut");
         }
 
     }

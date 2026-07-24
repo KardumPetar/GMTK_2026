@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class CountDown : MonoBehaviour
 {
+    [SerializeField] static private Animator animator;
     public static CountDown Instance { get; private set; }
     public static float startClockTime = 300f;
     public static float clockTime = 300f;
@@ -24,6 +25,8 @@ public class CountDown : MonoBehaviour
             Instance = this;
         }
         timeFlowMultiplier = 1;
+
+        animator = GameObject.Find("Player").GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
@@ -53,5 +56,10 @@ public class CountDown : MonoBehaviour
     }
     public void SetClockRunning(bool val) {
         clockRunning = val;
+    }
+    public static void ReduceTime(float value) {
+        clockTime -= value;
+        animator.SetTrigger("isHurt");
+        print("hurt");
     }
 }

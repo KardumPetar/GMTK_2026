@@ -15,14 +15,15 @@ public class GarlicScript : MonoBehaviour
     public float imunityTime = 1;
     private void Awake() {
         collider2d = GetComponent<Collider2D>();
-        
-        playerColider = (Collider2D)FindFirstObjectByType(typeof(CapsuleCollider2D), FindObjectsInactive.Include);//.GetComponent<Collider2D>();
+        playerColider = GameObject.Find("Player").GetComponentInChildren<CapsuleCollider2D>();
+        //playerColider = (Collider2D)FindFirstObjectByType(typeof(CapsuleCollider2D), FindObjectsInactive.Include);//.GetComponent<Collider2D>();
     }
 
 
     private void FixedUpdate() {
         if (collider2d.IsTouching(playerColider) && timeSinceHit>imunityTime) {
-            CountDown.clockTime -= timePenalty;
+            //CountDown.clockTime -= timePenalty;
+            CountDown.ReduceTime(timePenalty);
             timeSinceHit = 0;
         }
         timeSinceHit += Time.fixedDeltaTime;
