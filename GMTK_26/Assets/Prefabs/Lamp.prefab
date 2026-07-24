@@ -51,7 +51,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.623
   m_Color: {r: 0.78113204, g: 0.86353874, b: 0.8679245, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.6
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 3392422100000000eb5e81ee7928a6b3e1e35ca0
@@ -140,12 +140,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15be36b9e0d45514c8d202cb5ca6b5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseIntensity: 1
-  intensityVariation: 0.2
+  baseIntensity: 0.6
+  intensityVariation: 0.1
   flickerTime:
   - 0.2
   - 3
   isOn: 1
+  doesFlicker: 0
+  flickerProbability: 0.15
 --- !u!1 &8853866083866304699
 GameObject:
   m_ObjectHideFlags: 0
