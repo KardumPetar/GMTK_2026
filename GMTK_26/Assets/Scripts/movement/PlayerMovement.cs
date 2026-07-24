@@ -182,7 +182,7 @@ public class PlayerMovement : Skill
                 Debug.DrawRay(teleport_start_position.position, direction  * hit.distance, Color.red);
             }
         }
-        Debug.Log(haveLineOfSight);
+        //Debug.Log(haveLineOfSight);
         if (haveLineOfSight)
         {
             _teleportPrewiev.GetComponent<SpriteRenderer>().color = _teleportValidColor;
