@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7583461504398939639}
   - component: {fileID: 6458173855078324959}
+  - component: {fileID: 5614775978565887587}
+  - component: {fileID: 2662700580023596569}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -111,6 +113,39 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &5614775978565887587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553376765713216327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 182ccb69693a3ba49b4822fe20b53c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseTimeMultiplier: 1.5
+  timeMultiplier: 0
+  rayLength: 0
+--- !u!114 &2662700580023596569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553376765713216327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15be36b9e0d45514c8d202cb5ca6b5cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseIntensity: 1
+  intensityVariation: 0.2
+  flickerTime:
+  - 0.2
+  - 3
+  isOn: 1
 --- !u!1 &8853866083866304699
 GameObject:
   m_ObjectHideFlags: 0
