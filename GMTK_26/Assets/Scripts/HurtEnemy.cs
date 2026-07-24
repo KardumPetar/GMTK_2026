@@ -5,16 +5,16 @@ using UnityEngine;
 public class HurtEnemy : MonoBehaviour
 {
     private Collider2D collider2d;
-    public int demage;
-
+    public int damage;
+    private DestroyableObject destroyableObject;
     private void Start() {
         collider2d = GetComponent<Collider2D>();
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag == "Enemy") { 
-            print("HIt");
+        if(collision.TryGetComponent<DestroyableObject>(out destroyableObject)){
+            destroyableObject.Hurt(damage);
         }
     }
 }
