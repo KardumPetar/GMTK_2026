@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectalScript : MonoBehaviour
 {
     [SerializeField] private float lifeTime;
+
     private float age;
     void Update()
     {
@@ -13,4 +14,11 @@ public class ProjectalScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.gameObject.tag != "Player") {
+            Destroy(gameObject);
+        }
+        
+    }
 }
+
