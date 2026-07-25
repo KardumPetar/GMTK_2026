@@ -14,7 +14,7 @@ public class Gun_Skill : Skill
     private float timeSinceLastShoot;
     public static PlayerInput PlayerInput;
     private InputAction _shoot;
-    private GameObject projectalsGO;
+    //private GameObject projectalsGO;
 
     private bool fixed_allowed = false;
     private bool mouse_allowed = false;
@@ -33,7 +33,7 @@ public class Gun_Skill : Skill
         PlayerInput = FindAnyObjectByType<PlayerInput>(FindObjectsInactive.Include);
         _shoot = PlayerInput.actions["Shoot"];
         timeSinceLastShoot = 0;
-        projectalsGO = GameObject.Find("Projectals");
+        //projectalsGO = GameObject.Find("Projectals");
     }
 
     
@@ -48,7 +48,8 @@ public class Gun_Skill : Skill
                 direction  = direction.normalized;
             }
             if (fixed_allowed || mouse_allowed) {
-                GameObject newProjectal = Instantiate(projectile, projectalsGO.transform);
+                //GameObject newProjectal = Instantiate(projectile, projectalsGO.transform);
+                GameObject newProjectal = Instantiate(projectile, shootingPosition.transform.position, shootingPosition.transform.rotation);
                 newProjectal.transform.position = shootingPosition.transform.position;
                 newProjectal.GetComponent<Rigidbody2D>().velocity = direction * speed;
 
