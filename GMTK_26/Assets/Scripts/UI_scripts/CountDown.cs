@@ -26,7 +26,7 @@ public class CountDown : MonoBehaviour
         }
         timeFlowMultiplier = 1;
 
-        animator = GameObject.Find("Player").GetComponentInChildren<Animator>();
+        animator = FindFirstObjectByType<PlayerMovement>(FindObjectsInactive.Include).transform.GetComponentInChildren<Animator>(true);
     }
 
     void FixedUpdate()
