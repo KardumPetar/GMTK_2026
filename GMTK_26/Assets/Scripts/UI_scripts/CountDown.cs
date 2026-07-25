@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 public class CountDown : MonoBehaviour
 {
     [SerializeField] static private Animator animator;
-     public static CountDown Instance { get; private set; }
-    public static float startClockTime = 500f;
-    public static float clockTime = 300f;
+    public static CountDown Instance { get; private set; }
+    public static float startClockTime = 1200f;
+    public static float clockTime = 1200f;
     public bool clockRunning = false;
     public TMPro.TextMeshProUGUI Text;
 
