@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 4214427439683188850}
   - component: {fileID: 4954377855238811992}
   - component: {fileID: 3592049544330994870}
+  - component: {fileID: 1022919212}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -246,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 20
   destroyParticleSystem: {fileID: 1440676253112704112, guid: 4be6a1845e2dd8345b5892f3e468d92c, type: 3}
-  rewardGO: {fileID: 0}
+  rewardGO: {fileID: 6362361389135130542, guid: d3d620e577649104a97bb1438d7f8ee2, type: 3}
 --- !u!68 &3592049544330994870
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -271,6 +272,20 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &1022919212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214427439683188851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b4760260985da84581a7f007257308c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timePenalty: 10
+  imunityTime: 1
 --- !u!1 &4214427439895479730
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +381,7 @@ GameObject:
   - component: {fileID: 4214427439990575438}
   - component: {fileID: 4214427439990575432}
   - component: {fileID: 4214427439990575433}
+  - component: {fileID: 923728686}
   m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
@@ -466,3 +482,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &923728686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214427439990575439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 3392422100000000eb5e81ee7928a6b3e1e35ca0
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 44700
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0}

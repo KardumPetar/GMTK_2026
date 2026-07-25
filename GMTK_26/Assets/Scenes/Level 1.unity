@@ -9253,41 +9253,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6495418484455947627, guid: d0d04d479dfd54f4a84358f045da39a3, type: 3}
   m_PrefabInstance: {fileID: 368841360}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &923728682 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4214427439990575439, guid: 80cb983d46c39054c8b1b68ae5826310, type: 3}
-  m_PrefabInstance: {fileID: 4214427439167892069}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &923728686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 923728682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 3392422100000000eb5e81ee7928a6b3e1e35ca0
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  m_ShapePathHash: 0
-  m_Mesh: {fileID: 304500879}
-  m_InstanceId: 44700
-  m_LocalBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.5, y: 0.5, z: 0}
 --- !u!4 &928130208 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6495418484455947627, guid: d0d04d479dfd54f4a84358f045da39a3, type: 3}
@@ -9771,25 +9736,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0d04d479dfd54f4a84358f045da39a3, type: 3}
---- !u!1 &1022919211 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4214427439683188851, guid: 80cb983d46c39054c8b1b68ae5826310, type: 3}
-  m_PrefabInstance: {fileID: 4214427439167892069}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1022919212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1022919211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b4760260985da84581a7f007257308c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timePenalty: 10
-  imunityTime: 1
 --- !u!43 &1035713639
 Mesh:
   m_ObjectHideFlags: 0
@@ -19464,6 +19410,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1263253415}
     m_Modifications:
+    - target: {fileID: 923728686, guid: 80cb983d46c39054c8b1b68ae5826310, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 304500879}
     - target: {fileID: 4214427439683188850, guid: 80cb983d46c39054c8b1b68ae5826310, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -19512,10 +19462,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car
       objectReference: {fileID: 0}
-    - target: {fileID: 4954377855238811992, guid: 80cb983d46c39054c8b1b68ae5826310, type: 3}
-      propertyPath: rewardGO
-      value: 
-      objectReference: {fileID: 6362361389135130542, guid: d3d620e577649104a97bb1438d7f8ee2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80cb983d46c39054c8b1b68ae5826310, type: 3}
 --- !u!1001 &4741873566555068710
