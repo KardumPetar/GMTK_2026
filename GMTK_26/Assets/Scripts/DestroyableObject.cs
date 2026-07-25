@@ -9,7 +9,7 @@ public class DestroyableObject : MonoBehaviour
     [SerializeField] GameObject rewardGO;
     private GameObject newParticleSystem;
     private GameObject newRewardGO;
-    private int HP;
+    [SerializeField] private int HP;
     private void Start() {
         HP = maxHP;
     }

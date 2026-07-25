@@ -43,8 +43,8 @@
                 },
                 {
                     "name": "Shoot",
-                    "type": "PassThrough",
-                    "id": "d0b00c2d-d993-4969-823a-b4940d01c75f",
+                    "type": "Button",
+                    "id": "c278fce7-f8f0-45a7-8d2f-f8dc3055ca3d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -230,7 +230,7 @@
                 },
                 {
                     "name": "",
-                    "id": "8ca65e57-6739-4a79-9744-a1cc954f665e",
+                    "id": "519e1ca3-0482-4f82-b945-cabed57317f1",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",

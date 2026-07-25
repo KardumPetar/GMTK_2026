@@ -39,7 +39,7 @@ public class Gun_Skill : Skill
     
     void Update() {
         
-        if (_shoot.IsPressed() && timeSinceLastShoot>cooldown_time) {
+        if (_shoot.IsPressed() && timeSinceLastShoot>cooldown_time && !Input.GetMouseButton(1)) {
             if (fixed_allowed) {
                 direction = transform.TransformVector(Vector2.right);
             }
