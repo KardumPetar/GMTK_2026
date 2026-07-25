@@ -9,6 +9,7 @@ public class WolfOfWallStreet : MonoBehaviour
     [SerializeField] Transform boxCastSize;
     [SerializeField] Transform laser;
     [SerializeField] Transform AOE;
+    private Animator animator;
     [SerializeField] float laserCooldownTime;
 
     [SerializeField] float jumpAtackCooldownTime;
@@ -34,9 +35,10 @@ public class WolfOfWallStreet : MonoBehaviour
         wolfMovement = GetComponent<WolfMovement>();
         stopLoopAction = false;
         seePlayer = false;
-        laserOnCooldown = false;
+        laserOnCooldown = true;
         timeSinceLaser = 0f;
-        loopActionRunning = false;
+        loopActionRunning = true;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Start()
@@ -144,15 +146,18 @@ public class WolfOfWallStreet : MonoBehaviour
         wolfMovement._jumpCancle = false;
         wolfMovement._jumpStart = false;
 
+        animator.SetTrigger("shoot");
         //start laser animation
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.2f);
 
         //fire laser shot
+        animator.SetTrigger("laserStart");
         laser.gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
         laser.gameObject.SetActive(false);
+        animator.SetTrigger("laserEnd");
         //stop laser animation
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.15f);
 
         isAtacking = false;
     }
@@ -194,36 +199,6 @@ public class WolfOfWallStreet : MonoBehaviour
         isAtacking = false;
     }
 
-
-    IEnumerator WolfLogic()
-    {
-        stopLoopAction = false;
-        loopActionRunning = true;
-        while (!stopLoopAction)
-        {
-            wolfMovement._movementCommand = Vector2.right;
-            yield return new WaitForSeconds(0.5f);
-            wolfMovement._jumpCancle = false;
-            wolfMovement._jumpStart = true;
-            yield return new WaitForSeconds(0.1f);
-            wolfMovement._jumpCancle= true;
-            wolfMovement._jumpStart = false;
-            yield return new WaitForSeconds(0.5f);
-            wolfMovement._movementCommand = Vector2.zero;
-            yield return new WaitForSeconds(1);
-            wolfMovement._movementCommand = Vector2.left;
-            yield return new WaitForSeconds(0.5f);
-            wolfMovement._jumpCancle = false;
-            wolfMovement._jumpStart = true;
-            yield return new WaitForSeconds(0.1f);
-            wolfMovement._jumpCancle = true;
-            wolfMovement._jumpStart = false;
-            yield return new WaitForSeconds(0.5f);
-            wolfMovement._movementCommand = Vector2.zero;
-            yield return new WaitForSeconds(1);
-        }
-        loopActionRunning = false;
-    }
 
     IEnumerator WolfPatrol()
     {

@@ -11,7 +11,7 @@ public class LightDamage : MonoBehaviour
     [SerializeField] float baseTimeMultiplier;
     [SerializeField] float timeMultiplier;
 
-    [SerializeField] private float rayLength;
+    private float rayLength;
 
     private Light2D light2D;
     private float lightFalloffDistance;
