@@ -79,9 +79,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3447709704903854879, guid: 3b9cca21d9d1ede4eb6872319c6c447d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3989141548759058290, guid: 3b9cca21d9d1ede4eb6872319c6c447d, type: 3}
       propertyPath: m_Name
-      value: Enemy Projectal
+      value: Enemy Projectal trow
       objectReference: {fileID: 0}
     - target: {fileID: 8249201700825361228, guid: 3b9cca21d9d1ede4eb6872319c6c447d, type: 3}
       propertyPath: canHurtPlayer
