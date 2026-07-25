@@ -60,6 +60,6 @@ public class CountDown : MonoBehaviour
     public static void ReduceTime(float value) {
         clockTime -= value;
         animator.SetTrigger("isHurt");
-        print("hurt");
+        
     }
 }

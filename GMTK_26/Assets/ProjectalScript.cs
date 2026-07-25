@@ -50,7 +50,7 @@ public class ProjectalScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag != "Player" || canHurtPlayer)
         {

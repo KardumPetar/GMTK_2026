@@ -6,9 +6,13 @@ public class EnemyScript : MonoBehaviour
 {
     public float speed = 1;
     private Rigidbody2D rb;
-
+    public bool turnToPlayer = true;
+    [SerializeField] GameObject rotateToPlayer;
+    public int rotSpeed = 10;
+    private Vector3 newDir;
 
     public Vector2 direction = Vector2.zero;
+    private bool _isFacingRight = false;
     //private bool _attackPlayer = false;
 
     private void Start() {
@@ -20,9 +24,32 @@ public class EnemyScript : MonoBehaviour
             direction  = collision.transform.parent.position - transform.position;
             direction = direction.normalized;
 
-            Attack();
-
+            if(turnToPlayer == true) { 
+                if (direction.x > 0) {
+                    //transform.Rotate(0f,-180f, 0f);
+                    Turn(true);
+                }
+                else {
+                    Turn(false);
+                }
+                    Attack();
+            }
+            if (rotateToPlayer != null) {
+                //newDir = Vector3.RotateTowards(rotateToPlayer.transform.position, direction, rotSpeed* Time.deltaTime, 0.0f);
+                rotateToPlayer.transform.rotation = Quaternion.LookRotation(direction);
+            }
             //_attackPlayer = true;
+        }
+    }
+    private void Turn(bool turnRight) {
+        if (turnRight && !_isFacingRight) {
+            _isFacingRight = true;
+            transform.Rotate(0f, 180f, 0f);
+        }
+        else if (!turnRight && _isFacingRight) {
+
+            _isFacingRight = false;
+            transform.Rotate(0f, -180f, 0f);
         }
     }
     private void OnDrawGizmos() {
