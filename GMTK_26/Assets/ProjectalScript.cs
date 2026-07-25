@@ -15,10 +15,18 @@ public class ProjectalScript : MonoBehaviour
         }
     }
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.tag != "Player") {
+        //if(collision.gameObject.tag != "Player") {
+        if (!collision.transform.IsChildOf(transform) && collision.transform!=transform && !collision.isTrigger) { 
             Destroy(gameObject);
         }
         
+    }
+    private void OnCollisionEnter2D(Collision2D collision) {
+        //if(collision.gameObject.tag != "Player") {
+        if (!collision.transform.IsChildOf(transform) && collision.transform != transform && !collision.collider.isTrigger) {
+            Destroy(gameObject);
+        }
+
     }
 }
 
