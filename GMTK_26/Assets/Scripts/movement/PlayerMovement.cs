@@ -29,7 +29,7 @@ public class PlayerMovement : Skill
     [SerializeField] bool crouch_allowed = false;
     [SerializeField] bool teleport_allowed = false;
 
-    private Rigidbody2D _rb;
+    public Rigidbody2D _rb;
 
     //movement vars
     private Vector2 _moveVelocity;
@@ -72,9 +72,12 @@ public class PlayerMovement : Skill
 
     //teleporting
     private Vector2 _teleportTarget;
+    public Vector2 _externalTeleportTarget;
     private bool _initiateTeleport;
-    private bool _isTeleporting;
+    public bool _initiateExternalTeleport;
+    public bool _isTeleporting;
     [SerializeField] private float _teleportationTime = 0.5f;
+    [SerializeField] private float _maxTeleportationSpeed = 5f;
 
     public override void Allow(string name) {
         switch (name) {
@@ -130,7 +133,7 @@ public class PlayerMovement : Skill
 
     private void FixedUpdate()
     {
-        if (!_isTeleporting)
+        if (!_isTeleporting )
         {
             CollisionChecks();
             Jump();
@@ -146,9 +149,13 @@ public class PlayerMovement : Skill
 
             if (teleport_allowed && _initiateTeleport)
             {
-                //TeleportTo(_teleportTarget);
                 StartCoroutine(TeleportToIEnum(_teleportTarget));
             }
+        }
+        else if (_initiateExternalTeleport)
+        {
+            StartCoroutine(TeleportToIEnum(_externalTeleportTarget));
+            _initiateExternalTeleport = false;
         }
         
 
@@ -208,21 +215,13 @@ public class PlayerMovement : Skill
         _teleportTarget = Vector2.negativeInfinity;
     }
 
-    void TeleportTo(Vector3 targetPosition)
-    {
-        _isTeleporting = true;
-        animator.SetTrigger("batIn");
-        _teleportPrewiev.SetActive(false);
-        transform.position = targetPosition;
-        _initiateTeleport = false;
-
-    }
     IEnumerator TeleportToIEnum(Vector3 targetPosition) {
         _isTeleporting = true;
         _initiateTeleport = false;
         _teleportPrewiev.SetActive(false);
 
-        animator.SetTrigger("batIn");      
+        animator.SetBool("isRunning", false);
+        animator.SetTrigger("batIn");    
         
         yield return new WaitForSeconds(0.5f);
 
@@ -234,10 +233,11 @@ public class PlayerMovement : Skill
         {
             _standing_body.SetActive(false);
         }
-        _feetColl.gameObject.SetActive(false); 
+        _feetColl.gameObject.SetActive(false);
 
-        linearTeleport(transform.position, targetPosition, _teleportationTime);
-        yield return new WaitForSeconds(_teleportationTime);
+        float actualTeleportationTime = linearTeleport(transform.position, targetPosition, _teleportationTime);
+
+        yield return new WaitForSeconds(actualTeleportationTime);
         _rb.velocity = Vector3.zero;
 
         if (_isCrouching)
@@ -258,11 +258,23 @@ public class PlayerMovement : Skill
         _isTeleporting = false;
     }
 
-    void linearTeleport(Vector3 startPosition, Vector3 targetPosition, float teleportationTime)
+    float linearTeleport(Vector3 startPosition, Vector3 targetPosition, float teleportationTime)
     {
-        _rb.velocity = (targetPosition - startPosition) / teleportationTime;
-    }
+        Vector2 velocity = (targetPosition - startPosition) / teleportationTime;
+        if (velocity.magnitude <= _maxTeleportationSpeed)
+        {
+            _rb.velocity = velocity;
+        }
+        else
+        {
+            _rb.velocity = velocity.normalized * _maxTeleportationSpeed;
+            teleportationTime = (targetPosition - startPosition).magnitude / _maxTeleportationSpeed;
+        }
+        
 
+        return teleportationTime;
+    }
+   
 
     #endregion
 
@@ -522,6 +534,8 @@ public class PlayerMovement : Skill
             //jump cut
         if (_isFastFalling)
         {
+            animator.SetBool("isJumpingUp", false);
+            animator.SetBool("isJumpingDown", true);
             if (_fastFallTime >= MoveStats.TimeForUpwardsCancel)
             {
                 VerticalVelocity += MoveStats.Gravity * MoveStats.GravityOnReleaseMultiplier * Time.fixedDeltaTime;
@@ -536,6 +550,8 @@ public class PlayerMovement : Skill
         //gravity falling
         if (!_isGrounded && !_isJumping)
         {
+            animator.SetBool("isJumpingUp", false);
+            animator.SetBool("isJumpingDown", true);
             if (!_isFalling)
             {
                 _isFalling = true;
