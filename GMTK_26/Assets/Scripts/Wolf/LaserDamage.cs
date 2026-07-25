@@ -23,7 +23,7 @@ public class LaserDamage : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && timeSinceHit > repeatTime)
         {
             CountDown.ReduceTime(laserDamage);
-            Debug.Log("hit");
+            //Debug.Log("hit");
             timeSinceHit = 0;
         }
     }

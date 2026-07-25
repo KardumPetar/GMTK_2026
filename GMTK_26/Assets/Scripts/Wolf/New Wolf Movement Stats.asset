@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b702031f651be0419f082db8f7db6e8, type: 3}
   m_Name: New Wolf Movement Stats
   m_EditorClassIdentifier: 
-  MaxWalkSpeed: 12.5
+  MaxWalkSpeed: 6.3
   GroundAcceleration: 5
   GroundDeceleration: 20
   AirAcceleration: 5
   AirDeceleration: 5
-  MaxRunSpeed: 20
+  MaxRunSpeed: 31
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
