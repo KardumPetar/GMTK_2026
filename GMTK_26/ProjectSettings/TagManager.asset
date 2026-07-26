@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - PlayerHitBox
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -51,6 +52,9 @@ TagManager:
     locked: 0
   - name: UnderGround
     uniqueID: 696829315
+    locked: 0
+  - name: DefaultNoShadow
+    uniqueID: 2975193337
     locked: 0
   - name: Ground
     uniqueID: 4001455851

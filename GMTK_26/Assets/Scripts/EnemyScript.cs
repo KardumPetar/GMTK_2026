@@ -24,6 +24,7 @@ public class EnemyScript : MonoBehaviour
     public bool _toA;
     [SerializeField] GameObject pointA;
     [SerializeField] GameObject pointB;
+    [SerializeField] bool freeMovementAllowed= false;
     
     
     private void Start() {
@@ -75,11 +76,11 @@ public class EnemyScript : MonoBehaviour
         rb.velocity = new Vector2(Mathf.Sign(direction.x) * speed * Time.deltaTime, 0);
     }
     private void Update() {
-        if (_isPatrolinig) {
 
+        
+        if (_isPatrolinig) {
             if (_toA) {
-                direction = pointA.transform.position - transform.position;
-                
+                direction = pointA.transform.position - transform.position;                
             }
             else {
                 direction = pointB.transform.position - transform.position;
@@ -96,7 +97,17 @@ public class EnemyScript : MonoBehaviour
                 Turn(false);
             }
 
-            rb.velocity = new Vector2(Mathf.Sign(direction.x) * speed * Time.deltaTime, 0);
+            if (freeMovementAllowed)
+            {
+                rb.velocity = direction * speed * Time.deltaTime;
+            }
+            else
+            {
+                rb.velocity = new Vector2(Mathf.Sign(direction.x) * speed * Time.deltaTime, 0);
+            }
+            
+            
+            
             animator.SetBool("isRuning", true);
             timeSinceSawPlayer += Time.deltaTime;
         }
