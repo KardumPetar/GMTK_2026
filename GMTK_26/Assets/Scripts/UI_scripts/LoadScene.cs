@@ -22,5 +22,11 @@ public class LoadScene : MonoBehaviour
     public void doExitGame() {
         Application.Quit();
     }
-    
+    public void LoadSceneByNameDelay(string sceneName) {
+        StartCoroutine(Load(sceneName));
+    }
+    private IEnumerator Load(string sceneName) {
+        yield return new WaitForSeconds(4.5f);
+        SceneManager.LoadScene(sceneName);
+    }
 }
