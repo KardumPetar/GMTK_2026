@@ -12,6 +12,7 @@ public class LoadScene : MonoBehaviour
         SceneManager.LoadScene(GlobalVariables.PriviousScene + 1);
     }
     public void LoadSceneByName(string sceneName) {
+
         SceneManager.LoadScene(sceneName);
     }
     public void ReloadScene() {
