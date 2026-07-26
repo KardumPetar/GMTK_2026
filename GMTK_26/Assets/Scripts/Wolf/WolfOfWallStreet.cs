@@ -16,6 +16,13 @@ public class WolfOfWallStreet : MonoBehaviour
     [SerializeField] float jumpAtackTargetDistance;
     [SerializeField] float jumpAtackJumpTime;
 
+    [SerializeField] GameObject exitDoor;
+
+    [SerializeField] BossRoomTrigger[] roomTriggers;
+    [SerializeField] GameObject[] Lights;
+    [SerializeField] GameObject[] Drones;
+    private  bool[] roomTrigAlreadyActive = { false, false, false };
+
     private bool stopLoopAction;
     private bool loopActionRunning;
     private bool isAtacking;
@@ -51,6 +58,7 @@ public class WolfOfWallStreet : MonoBehaviour
     void Update()
     {
         seePlayer = LookForPlayer();
+        CheckRoomTriggers();
 
         if (seePlayer && !isAtacking )
         {
@@ -87,6 +95,39 @@ public class WolfOfWallStreet : MonoBehaviour
 
         //Debug.Log(seePlayer);
     }
+
+    void CheckRoomTriggers()
+    {
+        for (var i=0; i< roomTriggers.Length;i++)
+        {
+            if (roomTriggers[i].activated && !roomTrigAlreadyActive[i])
+            {
+                StartCoroutine(ActivateRoomArea(i));
+            }
+        } 
+    }
+    IEnumerator ActivateRoomArea(int triggerID)
+    {                
+        isAtacking = true;
+        stopLoopAction = true;
+        roomTrigAlreadyActive[triggerID] = true;
+        yield return new WaitForSeconds(0.5f);
+        if (triggerID == 0)
+        {//area on the left by the window
+            Lights[0].SetActive(true);
+        }
+        else if(triggerID == 1)
+        {//small area in the middle
+
+        }
+        else if (triggerID == 2)
+        {//area by the stairs            
+            Lights[1].SetActive(true);
+        }
+
+        isAtacking = false;
+    } 
+
     void FireLaser()
     {
         stopLoopAction = true;
@@ -218,6 +259,9 @@ public class WolfOfWallStreet : MonoBehaviour
         loopActionRunning = false;
     }
 
-
+    private void OnDestroy()
+    {
+        exitDoor.SetActive(false);
+    }
 
 }
