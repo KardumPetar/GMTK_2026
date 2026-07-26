@@ -7,6 +7,7 @@ public class ElevatorScript : MonoBehaviour
     [SerializeField] float[] floorPositions;
     [SerializeField] GameObject[] floorDoors;
     [SerializeField] float _maxSpeed;
+    [SerializeField] float _minSpeed;
     [SerializeField] float acceleration;
     [SerializeField] float accelerationTime;
 
@@ -78,7 +79,7 @@ public class ElevatorScript : MonoBehaviour
         float remainingDistance = _targetPosition - _rb.position.y;
         //Debug.Log(_targetPosition);
 
-        if (Mathf.Abs(remainingDistance) < _maxSpeed * Time.fixedDeltaTime)
+        if (Mathf.Abs(remainingDistance) < _minSpeed * Time.fixedDeltaTime)
         {
             _rb.MovePosition(new Vector2(_rb.position.x, _targetPosition));
             _currentSpeed = 0;
@@ -97,8 +98,7 @@ public class ElevatorScript : MonoBehaviour
                 acceleration = Mathf.Sign(remainingDistance) * Mathf.Abs(acceleration);
             }
             _currentSpeed = _currentSpeed + acceleration * Time.fixedDeltaTime;
-            _currentSpeed = Mathf.Sign(remainingDistance) * Mathf.Abs(_currentSpeed);
-            _currentSpeed = Mathf.Clamp(_currentSpeed, -_maxSpeed, _maxSpeed);
+            _currentSpeed = Mathf.Sign(remainingDistance) * Mathf.Clamp(Mathf.Abs(_currentSpeed), _minSpeed, _maxSpeed);
 
             //Debug.Log(_currentSpeed);
             _nextPositon = _rb.position.y + _currentSpeed * Time.fixedDeltaTime;
