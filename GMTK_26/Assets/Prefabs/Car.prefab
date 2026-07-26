@@ -388,7 +388,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 284400
+  m_InstanceId: 350630
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -440,10 +440,10 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.5099831, y: -0.50896835}
-  - {x: -1.5117207, y: 0.50732756}
-  - {x: -0.48025513, y: 0.49873233}
-  - {x: -0.49407864, y: 1.4950935}
+  - {x: -1.7439613, y: -0.58696294}
+  - {x: -1.7197056, y: 0.13035321}
+  - {x: -0.896225, y: 0.23874998}
+  - {x: -0.40308285, y: 0.8061403}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
