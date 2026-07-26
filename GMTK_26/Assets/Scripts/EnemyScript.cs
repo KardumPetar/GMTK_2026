@@ -20,6 +20,7 @@ public class EnemyScript : MonoBehaviour
 
     public Animator animator;
 
+    public bool PatrolingEnemy;
     public bool _isPatrolinig;
     public bool _toA;
     [SerializeField] GameObject pointA;
@@ -32,6 +33,7 @@ public class EnemyScript : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision) {
         if (collision.CompareTag("Player")) {
+            print(collision.gameObject.name);
             direction  = collision.transform.parent.position - transform.position;
             direction = direction.normalized;
 
@@ -44,8 +46,8 @@ public class EnemyScript : MonoBehaviour
                 }
             }
             if (rotateToPlayer != null) {
-                //newDir = Vector3.RotateTowards(rotateToPlayer.transform.position, direction, rotSpeed* Time.deltaTime, 0.0f);
-                rotateToPlayer.transform.rotation = Quaternion.LookRotation(direction);
+                float angle = Vector3.SignedAngle(rotateToPlayer.transform.TransformVector(Vector2.down), direction, transform.forward);
+                rotateToPlayer.transform.Rotate(0.0f, 0.0f, angle);
             }
             _seePlayer = true;
             _isPatrolinig = false;
@@ -109,7 +111,7 @@ public class EnemyScript : MonoBehaviour
             timeSinceSawPlayer += Time.deltaTime;
         }
 
-        if(timeSinceSawPlayer > maxSearchTime) {
+        if(PatrolingEnemy && timeSinceSawPlayer > maxSearchTime) {
             _isPatrolinig = true;
         }
         _seePlayer = false;

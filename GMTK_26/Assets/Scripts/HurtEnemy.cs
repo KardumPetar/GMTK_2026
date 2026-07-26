@@ -7,6 +7,7 @@ public class HurtEnemy : MonoBehaviour
     private Collider2D collider2d;
     public int damage;
     private DestroyableObject destroyableObject;
+    private Animator animator;
     [SerializeField] bool canHurtPlayer = false;
     private void Start() {
         collider2d = GetComponent<Collider2D>();
@@ -18,6 +19,10 @@ public class HurtEnemy : MonoBehaviour
             destroyableObject = collision.GetComponentInParent<DestroyableObject>();
             if(destroyableObject!=null){
                 destroyableObject.Hurt(damage);
+                animator  = destroyableObject.gameObject.GetComponentInChildren<Animator>();
+                if (animator != null) {
+                    animator.SetTrigger("hurt");
+                }
             }
             else if(collision.CompareTag("Player") && canHurtPlayer) {
                 CountDown.ReduceTime(damage);

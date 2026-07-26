@@ -107,6 +107,10 @@ PrefabInstance:
       propertyPath: pointB
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3270543647033099555, guid: 47c503d6b8f444a40a4ae5920e2dcbc2, type: 3}
+      propertyPath: rotateToPlayer
+      value: 
+      objectReference: {fileID: 8916859234520167006}
     - target: {fileID: 3270543647033099556, guid: 47c503d6b8f444a40a4ae5920e2dcbc2, type: 3}
       propertyPath: m_RootOrder
       value: 0
