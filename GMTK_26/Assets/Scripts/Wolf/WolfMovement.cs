@@ -14,7 +14,7 @@ public class WolfMovement : MonoBehaviour
     private Collider2D _bodyColl;
 
 
-    private Rigidbody2D _rb;
+    public Rigidbody2D _rb;
 
     //movement vars
     private Vector2 _moveVelocity;
@@ -118,7 +118,7 @@ public class WolfMovement : MonoBehaviour
         }
         else if (moveInput == Vector2.zero)
         {
-            Turn();
+            //Turn();
             animator.SetBool("isRunning", false);
             _moveVelocity = Vector2.Lerp(_moveVelocity, Vector2.zero, deceleration * Time.fixedDeltaTime);
             _rb.velocity = new Vector2(_moveVelocity.x, _rb.velocity.y);

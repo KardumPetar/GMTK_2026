@@ -17,6 +17,7 @@ public class WolfOfWallStreet : MonoBehaviour
     [SerializeField] float jumpAtackJumpTime;
 
     [SerializeField] GameObject exitDoor;
+    [SerializeField] GameObject enterDoor;
 
     [SerializeField] BossRoomTrigger[] roomTriggers;
     [SerializeField] GameObject[] Lights;
@@ -112,17 +113,22 @@ public class WolfOfWallStreet : MonoBehaviour
         stopLoopAction = true;
         roomTrigAlreadyActive[triggerID] = true;
         yield return new WaitForSeconds(0.5f);
+
+        
         if (triggerID == 0)
         {//area on the left by the window
             Lights[0].SetActive(true);
+            Drones[triggerID].SetActive(true);            
         }
         else if(triggerID == 1)
-        {//small area in the middle
-
+        {//big area at the  entrance
+            enterDoor.SetActive(true);
+            Drones[triggerID].SetActive(true);
         }
         else if (triggerID == 2)
         {//area by the stairs            
             Lights[1].SetActive(true);
+            Drones[triggerID].SetActive(true);
         }
 
         isAtacking = false;
@@ -194,7 +200,7 @@ public class WolfOfWallStreet : MonoBehaviour
         //fire laser shot
         animator.SetTrigger("laserStart");
         laser.gameObject.SetActive(true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         laser.gameObject.SetActive(false);
         animator.SetTrigger("laserEnd");
         //stop laser animation
@@ -247,12 +253,19 @@ public class WolfOfWallStreet : MonoBehaviour
         loopActionRunning = true;
         while (!stopLoopAction)
         {
+            
             wolfMovement._movementCommand = Vector2.right;
-            yield return new WaitForSeconds(8f);
+            //wolfMovement._runCommand = true;
+            //yield return new WaitForSeconds(0.5f);
+            //wolfMovement._runCommand = false;
+            yield return new WaitForSeconds(5f);
             wolfMovement._movementCommand = Vector2.zero;
             yield return new WaitForSeconds(2);
             wolfMovement._movementCommand = Vector2.left;
-            yield return new WaitForSeconds(8f);
+            //wolfMovement._runCommand = true;
+            //yield return new WaitForSeconds(0.5f);
+            //wolfMovement._runCommand = false;
+            yield return new WaitForSeconds(5f);
             wolfMovement._movementCommand = Vector2.zero;
             yield return new WaitForSeconds(2);
         }
@@ -262,6 +275,7 @@ public class WolfOfWallStreet : MonoBehaviour
     private void OnDestroy()
     {
         exitDoor.SetActive(false);
+        enterDoor.SetActive(false);
     }
 
 }
