@@ -11,7 +11,7 @@ public class LevelFinish : MonoBehaviour
         if (collision.gameObject.layer == 7)
         {
             GlobalVariables.PriviousScene = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene("Level Finished");
+            SceneManager.LoadScene(level);
             Debug.Log("Level finished");
         }
     }
