@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelFinish : MonoBehaviour
 {
+    [SerializeField] private string level = "Level Finished";
     private void OnTriggerEnter2D(Collider2D collision)
     {  
         if (collision.gameObject.layer == 7)

@@ -37,8 +37,11 @@ public class InputManager : MonoBehaviour
         JumpWasPressed = _jumpAction.WasPressedThisFrame();
         JumpIsHeld = _jumpAction.IsPressed();
         JumpWasReleased = _jumpAction.WasReleasedThisFrame();
-
+        
         RunIsHeld = _runAction.IsPressed();
         CrouchIsHeld = _crouchAction.IsPressed();
+        if(PlayerInput.actions["esc"].IsPressed()){
+            Application.Quit();
+        }
     }
 }
